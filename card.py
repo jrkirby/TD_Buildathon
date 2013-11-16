@@ -10,22 +10,21 @@ class card:
     classdocs
     '''
 
-    cType = None
+    card_type = None
     images = []
     onScreen = False
-    position = -1
+    position = (-1, -1)
     
     
     def __init__(self, t):
         '''
         Constructor
         '''
-        self.cType = cardType(t)
+        self.card_type = cardType(t)
         self.getImage    
     
-    def draw(self):
+    def draw(self, surface):
         if(self.onScreen == True):
-            self.tType.draw()
-            
+            self.card_type.draw(surface, self.position)
     
         

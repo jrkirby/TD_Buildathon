@@ -37,9 +37,11 @@ class UserInterface:
 
     def __init__(self):
         # Define a font object to use
-        pygame.font.init()
         self.font = pygame.font.Font(os.path.join("UI", "larabie.ttf"), FONT_SIZE, )
-        self.gamestate = True # The game is running
+        self.gamestate = False # The game is running
+
+    def start():
+        self.gamestate = True
 
     def update(self, gamedata):
         # We save a surface containing the text we want to show.
@@ -47,7 +49,7 @@ class UserInterface:
                                       True, FONT_COLOR, FONT_BACKGROUND)
         self.lives = self.font.render("Lives: " + str(gamedata.lives),
                                       True, FONT_COLOR, FONT_BACKGROUND)
-        self.resources = self.font.render("Resources: " + str(gamedata.resources),
+        self.resources = self.font.render("Mana: " + str(gamedata.resources),
                                           True, FONT_COLOR, FONT_BACKGROUND)
         self.defeat = self.font.render("You have been defeated!", True,
                                        FONT_COLOR, FONT_BACKGROUND)

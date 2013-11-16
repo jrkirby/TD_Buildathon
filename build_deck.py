@@ -18,16 +18,16 @@ class BuildDeck(object):
 		# self.cards[2] = new_random_card()	#todo
 		x = 0
 
-	def click(self, x, y):
-		if(click_on(self.cards[0], x, y)):
+	def click(self, pos):
+		if(self.cards[0].click_on(pos.x, pos.y)):
 			# todo
 			# add to deck self.cards[0]
 			self.getNewCards()
-		elif(click_on(self.cards[1], x, y)):
+		elif(self.cards[0].click_on(pos.x, pos.y)):
 			# todo
 			# add to deck self.cards[1]
 			self.getNewCards()
-		elif(click_on(self.cards[2], x, y)):
+		elif(self.cards[0].click_on(pos.x, pos.y)):
 			# todo
 			# add to deck self.cards[2]
 			self.getNewCards()

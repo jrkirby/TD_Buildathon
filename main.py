@@ -74,6 +74,7 @@ def setup():
 This handles a single pygame event.
 """
 def handleEvent(event):
+    global GameState
     if(event.type == pygame.KEYDOWN or event.type == pygame.KEYUP):
         handleKeyEvent(event)
     if event.type == pygame.QUIT:
@@ -82,7 +83,7 @@ def handleEvent(event):
         sys.exit()
     if(event.type == pygame.MOUSEBUTTONDOWN):
         if(GameState == "MENU"):
-            GameState == "BUILD_DECK"
+            GameState = "BUILD_DECK"
         if(GameState == "BUILD_DECK"):
             BuildDeck.click(pygame.mouse.get_pos())
         if(GameState == "GAME"):
@@ -92,8 +93,8 @@ def handleEvent(event):
             card_y = int(math.floor(SCREEN_HEIGHT / CARD_ARRAY_SIZE))
             card_x = x / card_x
             mouse_c = pygame.image.load("images/card.png").convert()
-	print(card_x)
-	print("\n")
+            print(card_x)
+            print("\n")
         #screen.blit(mouse_c, (x, y))
         #deck[card_x].cType.image
     else:
