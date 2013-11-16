@@ -30,8 +30,3 @@ class cardType:
     def draw(self):
         if(self.tType != None):            
             self.image = pygame.image.load(self.tType.type).convert()
-<<<<<<< HEAD
-            
-=======
-            
->>>>>>> d6ed2f6699848e148613059ecc050af0a47c739c
