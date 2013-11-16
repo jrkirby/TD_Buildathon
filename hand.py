@@ -26,5 +26,5 @@ class Hand(object):
 			card.draw(Hand.index_to_offset(i))
 
 	def index_to_offset(index):
-
+		y = screen_size - 
 		return (x,y)
