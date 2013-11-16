@@ -13,8 +13,8 @@ import enemymanager
 """
 The dimensions for the screen. These should remain constant.
 """
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 800
+SCREEN_WIDTH = 1300
+SCREEN_HEIGHT = 700
 
 """
 The max number of frames per second for the game.
@@ -45,13 +45,13 @@ def setup():
     ScreenSurface = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     # Set up the map
     global Map
+    Map = gamemap.GameMap("map1", ScreenSurface)
     # Set up the starting game data
     global Data
     Data = gamedata.GameData()
     # Set up the UI
     global UI
     UI = userinterface.UserInterface()
-    Map = gamemap.GameMap("map1", ScreenSurface)
     # Initialize the enemy manager
     global EnemyManager
     EnemyManager = enemymanager.EnemyManager(Map.getTileSize())
