@@ -1,5 +1,5 @@
 
-import random import shuffle
+from random import shuffle
 
 class Deck(object):
 	"""docstring for Deck"""

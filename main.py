@@ -9,6 +9,8 @@ import os
 import gamedata
 import userinterface
 import enemymanager
+import build_deck
+import menu
 
 """
 The dimensions for the screen. These should remain constant.
@@ -38,6 +40,7 @@ variables are bad, but there really isn't a simple solution).
 """
 def setup():
    
+    pygame.font.init()
     # Set the title of the game.
     pygame.display.set_caption(TITLE)
     # Set up a new window.
@@ -57,8 +60,13 @@ def setup():
     EnemyManager = enemymanager.EnemyManager(Map.getTileSize())
     global GameClock
     GameClock = pygame.time.Clock()
+    #We start at a menu
     global GameState
-    GameState = True
+    GameState = "MENU"
+    global Menu
+    Menu = menu.Menu()
+    global BuildDeck
+    BuildDeck = build_deck.BuildDeck()
 
 """
 This handles a single pygame event.
@@ -70,6 +78,16 @@ def handleEvent(event):
         # Quit the program safely
         pygame.quit()
         sys.exit()
+    if(event.type == pygame.MOUSEBUTTONDOWN):		
+        x, y = pygame.mouse.get_pos()
+        card_x = int(math.floor(SCREEN_WIDTH / CARD_ARRAY_SIZE))
+        card_y = int(math.floor(SCREEN_HEIGHT / CARD_ARRAY_SIZE))
+	card_x = x / card_x
+        mouse_c = pygame.image.load("images/card.png").convert()
+	print(card_x)
+	print("\n")
+        #screen.blit(mouse_c, (x, y))
+        #deck[card_x].cType.image
     else:
         EnemyManager.spawnEnemy(event, Map.getStartingTile())
 
@@ -100,8 +118,7 @@ Handles any updating of game objects. This is called
 once per game loop.
 """
 def update():
-    global GameState
-    if(GameState):
+    if(GameState == "GAME"):
         # Update the enemies
         livesLost = EnemyManager.update(Map)
         Data.lives -= livesLost
@@ -109,7 +126,7 @@ def update():
         UI.update(Data)
         # Check if the game is over
         if(Data.lives <= 0):
-            GameState = False # The game is over
+            GameState = "GAME_LOST" # The game is over
             UI.showDefeat()
        
 
@@ -118,12 +135,17 @@ Draws all game objects to the screen. This is called once
 per game loop.
 """
 def draw():
-    # Draw the map
-    Map.draw(ScreenSurface)
-    # Draw the enemies
-    EnemyManager.draw(ScreenSurface)
-    # Draw the UI
-    UI.draw(ScreenSurface)
+    if(GameState == "MENU"):
+        Menu.draw()
+    elif(GameState == "BUILD_DECK"):
+        BuildDeck.draw()
+    elif(GameState == "GAME"):
+        # Draw the map
+        Map.draw(ScreenSurface)
+        # Draw the enemies
+        EnemyManager.draw(ScreenSurface)
+        # Draw the UI
+        UI.draw(ScreenSurface)
     
 
 """
