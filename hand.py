@@ -10,7 +10,7 @@ class Hand(object):
 		for(range(STARTING_CARDS)):
 			self.add_card(self.deck.draw_card())
 
-	def add_card(self, card):
+	def add_card(self, card, surface):
 		self.cards.append(card)
 		card.position = 
 
@@ -29,5 +29,7 @@ class Hand(object):
 			card = self.cards[i]
 			card.draw(surface)
 
-	def index_to_pos(index):
+	def index_to_pos(index, surface):
+		y = surface.get_height() - 133
+		x = index * 100
 		return (x,y)

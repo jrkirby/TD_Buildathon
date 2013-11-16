@@ -66,10 +66,7 @@ class UserInterface:
         height = surface.get_height()
         # Draws the hand below the bottom of the map
         for card in self.hand.cards :
-            x = 0
-            y = height - 133
-            surface.blit(self.basecard, (x, y))
-            x += 100
+            surface.blit(self.basecard, card.position.x, card.position.y)
         # Draw the score in the upper left corner
         surface.blit(self.score, (FONT_PADDING, FONT_PADDING))
         # Put the number of lives below the score
