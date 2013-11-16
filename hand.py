@@ -30,5 +30,4 @@ class Hand(object):
 			card.draw(surface)
 
 	def index_to_pos(index):
-		y = screen_size - 
 		return (x,y)

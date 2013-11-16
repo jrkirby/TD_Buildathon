@@ -16,15 +16,14 @@ class card:
     position = (-1, -1)
     
     
-    def __init__(self, t):
+    def __init__(self, typeOfCard, booleanWhetherIsTower):
         '''
         Constructor
         '''
-        self.card_type = cardType(t)
+        self.card_type = cardType(typeOfCard, booleanWhetherIsTower)
         self.getImage    
-    
+
     def draw(self, surface):
         if(self.onScreen == True):
             self.card_type.draw(surface, self.position)
-    
         

@@ -3,6 +3,7 @@ userinterface.py - Handles the game's user interface (UI) and draws it to the
 screen.
 """
 
+
 import os
 
 """
@@ -35,13 +36,18 @@ import pygame
 
 class UserInterface:
 
-    def __init__(self):
+    def __init__(self, hand):
         # Define a font object to use
         self.font = pygame.font.Font(os.path.join("UI", "larabie.ttf"), FONT_SIZE, )
+<<<<<<< HEAD
         self.gamestate = False # The game is running
 
     def start():
         self.gamestate = True
+=======
+        self.gamestate = True # The game is running
+	self.hand = hand
+>>>>>>> dfbd79007f840a9f634ebaf3a56a2eb083d13f5d
 
     def update(self, gamedata):
         # We save a surface containing the text we want to show.
@@ -53,8 +59,17 @@ class UserInterface:
                                           True, FONT_COLOR, FONT_BACKGROUND)
         self.defeat = self.font.render("You have been defeated!", True,
                                        FONT_COLOR, FONT_BACKGROUND)
+	self.basecard = pygame.image.load("images/Card.png")
 
     def draw(self, surface):
+        width = surface.get_width()
+        height = surface.get_height()
+        # Draws the hand below the bottom of the map
+        for card in self.hand.cards :
+            x = 0
+            y = height - 133
+            surface.blit(self.basecard, (x, y))
+            x += 100
         # Draw the score in the upper left corner
         surface.blit(self.score, (FONT_PADDING, FONT_PADDING))
         # Put the number of lives below the score
@@ -68,10 +83,11 @@ class UserInterface:
             surface.blit(self.defeat, ((surface.get_width()-self.defeat.get_width())/2,
                                        (surface.get_height()-self.defeat.get_height())/2))
 
+		
+
     def showDefeat(self):
         self.gamestate = False # The game is 
         
 # A little trick so we can run the game from here in IDLE
 if __name__ == '__main__':
     execfile("main.py")
-        
