@@ -1,10 +1,11 @@
 
 class BuildDeck(object):
 	"""docstring for BuildDeck"""
-	def __init__(self):
+	def __init__(self, deck):
 		super(BuildDeck, self).__init__()
 		self.cards = []
 		self.getNewCards()
+		self.deck = deck
 
 	def draw(self, surface):
 		self.cards[0].draw()
@@ -21,14 +22,14 @@ class BuildDeck(object):
 	def click(self, pos):
 		if(self.cards[0].click_on(pos.x, pos.y)):
 			# todo
-			# add to deck self.cards[0]
+			self.deck.add_card(self.cards[0])
 			self.getNewCards()
 		elif(self.cards[0].click_on(pos.x, pos.y)):
 			# todo
-			# add to deck self.cards[1]
+			self.deck.add_card(self.cards[1])
 			self.getNewCards()
 		elif(self.cards[0].click_on(pos.x, pos.y)):
 			# todo
-			# add to deck self.cards[2]
+			self.deck.add_card(self.cards[2])
 			self.getNewCards()
 

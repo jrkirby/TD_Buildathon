@@ -70,11 +70,14 @@ def setup():
     global GameState
     GameState = True
 
+    global Deck
+
 """
 This handles a single pygame event.
 """
 def handleEvent(event):
     global GameState
+    global Deck
     if(event.type == pygame.KEYDOWN or event.type == pygame.KEYUP):
         handleKeyEvent(event)
     if event.type == pygame.QUIT:
@@ -84,6 +87,7 @@ def handleEvent(event):
     if(event.type == pygame.MOUSEBUTTONDOWN):
         if(GameState == "MENU"):
             GameState = "BUILD_DECK"
+            Deck = deck.Deck()
         if(GameState == "BUILD_DECK"):
             BuildDeck.click(pygame.mouse.get_pos())
         if(GameState == "GAME"):

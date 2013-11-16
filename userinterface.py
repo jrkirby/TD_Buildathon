@@ -39,15 +39,11 @@ class UserInterface:
     def __init__(self, hand):
         # Define a font object to use
         self.font = pygame.font.Font(os.path.join("UI", "larabie.ttf"), FONT_SIZE, )
-<<<<<<< HEAD
         self.gamestate = False # The game is running
 
-    def start():
+    def start(self, deck):
         self.gamestate = True
-=======
-        self.gamestate = True # The game is running
-	self.hand = hand
->>>>>>> dfbd79007f840a9f634ebaf3a56a2eb083d13f5d
+	    self.hand = hand.Hand(deck)
 
     def update(self, gamedata):
         # We save a surface containing the text we want to show.
