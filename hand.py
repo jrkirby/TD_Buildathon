@@ -22,13 +22,13 @@ class Hand(object):
 		self.cards.remove(index)
 		for(i in range(len(self.cards))):
 			card = self.cards[i]
-			card.position = 
+			card.position = index_to_pos(i)
 
 	def draw(self, surface):
 		for(i in range(len(self.cards))):
 			card = self.cards[i]
 			card.draw(surface)
 
-	def index_to_offset(index):
+	def index_to_pos(index):
 		y = screen_size - 
 		return (x,y)
