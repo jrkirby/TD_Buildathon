@@ -40,12 +40,14 @@ variables are bad, but there really isn't a simple solution).
 """
 def setup():
    
-    pygame.font.init()
     # Set the title of the game.
     pygame.display.set_caption(TITLE)
     # Set up a new window.
     global ScreenSurface
     ScreenSurface = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+    
+    pygame.font.init()
+    
     # Set up the map
     global Map
     Map = gamemap.GameMap("map1", ScreenSurface)
@@ -78,18 +80,25 @@ def handleEvent(event):
         # Quit the program safely
         pygame.quit()
         sys.exit()
-    if(event.type == pygame.MOUSEBUTTONDOWN):		
-        x, y = pygame.mouse.get_pos()
-        card_x = int(math.floor(SCREEN_WIDTH / CARD_ARRAY_SIZE))
-        card_y = int(math.floor(SCREEN_HEIGHT / CARD_ARRAY_SIZE))
-	card_x = x / card_x
-        mouse_c = pygame.image.load("images/card.png").convert()
+    if(event.type == pygame.MOUSEBUTTONDOWN):
+        if(GameState == "MENU"):
+            GameState == "BUILD_DECK"
+        if(GameState == "BUILD_DECK"):
+            BuildDeck.click(pygame.mouse.get_pos())
+        if(GameState == "GAME"):
+
+            x, y = pygame.mouse.get_pos()
+            card_x = int(math.floor(SCREEN_WIDTH / CARD_ARRAY_SIZE))
+            card_y = int(math.floor(SCREEN_HEIGHT / CARD_ARRAY_SIZE))
+            card_x = x / card_x
+            mouse_c = pygame.image.load("images/card.png").convert()
 	print(card_x)
 	print("\n")
         #screen.blit(mouse_c, (x, y))
         #deck[card_x].cType.image
     else:
-        EnemyManager.spawnEnemy(event, Map.getStartingTile())
+        if(GameState == "GAME"):
+            EnemyManager.spawnEnemy(event, Map.getStartingTile())
 
 """
 This is the main game loop, called as many times as
@@ -118,6 +127,7 @@ Handles any updating of game objects. This is called
 once per game loop.
 """
 def update():
+    global GameState
     if(GameState == "GAME"):
         # Update the enemies
         livesLost = EnemyManager.update(Map)
@@ -136,9 +146,9 @@ per game loop.
 """
 def draw():
     if(GameState == "MENU"):
-        Menu.draw()
+        Menu.draw(ScreenSurface)
     elif(GameState == "BUILD_DECK"):
-        BuildDeck.draw()
+        BuildDeck.draw(ScreenSurface)
     elif(GameState == "GAME"):
         # Draw the map
         Map.draw(ScreenSurface)
