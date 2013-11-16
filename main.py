@@ -78,6 +78,16 @@ def handleEvent(event):
         # Quit the program safely
         pygame.quit()
         sys.exit()
+    if(event.type == pygame.MOUSEBUTTONDOWN):		
+        x, y = pygame.mouse.get_pos()
+        card_x = int(math.floor(SCREEN_WIDTH / CARD_ARRAY_SIZE))
+        card_y = int(math.floor(SCREEN_HEIGHT / CARD_ARRAY_SIZE))
+	card_x = x / card_x
+        mouse_c = pygame.image.load("images/card.png").convert()
+	print(card_x)
+	print("\n")
+        #screen.blit(mouse_c, (x, y))
+        #deck[card_x].cType.image
     else:
         EnemyManager.spawnEnemy(event, Map.getStartingTile())
 
