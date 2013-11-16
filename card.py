@@ -13,19 +13,19 @@ class card:
     cType = None
     images = []
     onScreen = False
-    position = -1
+    position_x = -1
+    position_y = -1
     
     
-    def __init__(self, t):
+    def __init__(self, typeOfCard, booleanWhetherIsTower):
         '''
         Constructor
         '''
-        self.cType = cardType(t)
-        self.getImage    
+        self.cType = cardType(typeOfCard, booleanWhetherIsTower)         
     
     def draw(self):
         if(self.onScreen == True):
-            self.tType.draw()
+            self.cType.draw()
             
     
         
