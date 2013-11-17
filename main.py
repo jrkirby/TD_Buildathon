@@ -185,8 +185,8 @@ def draw():
         # Draw the UI
         UI.draw(ScreenSurface)
 
-        # for tower in Map."towers":
-        #     tower.animate(Map.enemies)
+        for tower in Map.towers:
+            tower.animate(EnemyManager.enemies, ScreenSurface)
     
 
 """

@@ -42,7 +42,6 @@ class EnemyManager:
     """
     The list of enemies in the game.
     """
-    enemies = []
 
     """
     The time at which the last update occurred.
@@ -66,6 +65,7 @@ class EnemyManager:
     last_spawn_time = pygame.time.get_ticks()
 
     def __init__(self, size):
+        self.enemies = []
         self.last_wave_time = pygame.time.get_ticks()
         self.last_update_time = pygame.time.get_ticks()
         self.size = size
@@ -78,13 +78,13 @@ class EnemyManager:
     def update(self, mapdata):
         retval = 0
         # Update the enemies
-        for curr in EnemyManager.enemies:
+        for curr in self.enemies:
             curr.update(pygame.time.get_ticks()-self.last_update_time, mapdata)
             if(curr.dead() or curr.offscreen(mapdata)):
-                EnemyManager.enemies.remove(enemy)
+                self.enemies.remove(curr)
                 curr.sprite.kill() # Remove the sprite from the sprite group
             if(curr.atDestination(mapdata)):
-                EnemyManager.enemies.remove(curr)
+                self.enemies.remove(curr)
                 curr.sprite.kill()
                 retval += 1
         self.last_update_time = pygame.time.get_ticks()
@@ -97,7 +97,7 @@ class EnemyManager:
                 EnemyManager.enemy_queue.put(current_enemy)
                 spawning = False
             else:
-                EnemyManager.enemies.append(current_enemy[1])
+                self.enemies.append(current_enemy[1])
 
         
         # If enough time has passed, and we're not spawning a wave, spawn a wave
@@ -126,7 +126,7 @@ class EnemyManager:
     """
     def spawnEnemy(self, event, coordinates):
         if(event.type == EnemyManager.SPAWN_EVENT_BASIC):
-            EnemyManager.enemies.append(enemy.Enemy(coordinates[0], coordinates[1],
+            self.enemies.append(enemy.Enemy(coordinates[0], coordinates[1],
                                                  EnemyManager.spritegroup, self.size))
 
 # A little trick so we can run the game from here in IDLE

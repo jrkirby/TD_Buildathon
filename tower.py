@@ -1,6 +1,7 @@
 import pygame
 import os
 from cardType import cardType
+import math
 
 FONT_SIZE = 10
 FONT_PADDING = 10
@@ -16,8 +17,8 @@ class tower:
 	def __init__(self, ctype):
 		self.ctype = ctype
 		self.Damage = cardType.Damage[self.ctype]
-		self.Range = cardType.Range[self.ctype]
-		self.Cooldown = cardType.Cooldown[self.ctype]
+		self.Range = cardType.Range[self.ctype] * 51
+		self.Cooldown = cardType.Cooldown[self.ctype] * 50000
 
 		self.cd = self.Cooldown
 
@@ -30,6 +31,18 @@ class tower:
 		self.xCoord = x
 		self.yCoord = y
 
-	def animate(self, enemies):
-		# self.cd -= pygame.time.get_ticks()-self.last_update_time
-		x = 0
+	def animate(self, enemies, surface):
+		self.cd -= pygame.time.get_ticks()-self.last_update_time
+		if(self.cd < 0):
+			self.cd += self.Cooldown
+			for enemy in enemies:
+				if(self.in_range(enemy)):
+					enemy.health -= self.Damage
+					pygame.draw.line(surface, FONT_COLOR, (self.xCoord, self.yCoord), enemy.getCoordinates(), 10)
+					return
+
+	def in_range(self, enemy):
+		dist = math.sqrt((self.xCoord - enemy.getCoordinates()[0]) * (self.xCoord - enemy.getCoordinates()[0]) + (self.yCoord - enemy.getCoordinates()[1]) * (self.yCoord - enemy.getCoordinates()[1]))
+		if(dist < self.Range):
+			return True
+		return False

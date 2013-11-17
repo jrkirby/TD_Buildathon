@@ -9,8 +9,6 @@ import pygame
 from math import floor
 from tower import tower
 
-towers = []
-
 class GameMap:
     mySurface = None
     """
@@ -28,6 +26,8 @@ class GameMap:
     D = Where the enemies leave the map (their objective).
     """
     def __init__(self, mapname, surface):
+
+        self.towers = []
         self.mySurface = surface
         # Read the file in the maps directory with the given name, line by line.
         # The "with" keyword opens the file while handling any exceptions.
@@ -121,28 +121,28 @@ class GameMap:
         return (x >= 0 and x < self.numColumns and y >= 0 and y < self.numRows)
 
     def checkIfCanPlace(self, x, y):
-	for tower in towers:
-		if((tower.xCoord == x) and (tower.yCoord == y)):
-			return False
-	if((x==4) and((y == 0) or (y == 1) or (y == 2))):
-		return False
-	if((x == 2) and ((y == 4) or (y == 5) or (y == 6))):
-		return False
-	if((x == 6) and ((y <= 9) and (y >= 6))):
-		return False
-	if((x == 6) and ((y==2) or (y == 3) or (y == 4))):
-		return False
-	if(((y == 4) or (y == 6)) and ((x >=2) and (x <= 6))):
-		return False
-	return True
+    	for tower in self.towers:
+    		if((tower.xCoord == x) and (tower.yCoord == y)):
+    			return False
+    	if((x==4) and((y == 0) or (y == 1) or (y == 2))):
+    		return False
+    	if((x == 2) and ((y == 4) or (y == 5) or (y == 6))):
+    		return False
+    	if((x == 6) and ((y <= 9) and (y >= 6))):
+    		return False
+    	if((x == 6) and ((y==2) or (y == 3) or (y == 4))):
+    		return False
+    	if(((y == 4) or (y == 6)) and ((x >=2) and (x <= 6))):
+    		return False
+    	return True
 
-    def placeTowerAt(self, x, y, towerType):
+    def placeTowerAt(self, x, y, ctype):
 	x = int(x/51)
         y = int(y/51)
 	if(self.checkIfCanPlace(x, y) == True):
-		t = tower(towerType) #todo change
+		t = tower(ctype) #todo change
 		t.pos(x, y)	
-		towers.append(t)
+		self.towers.append(t)
         self.tiles[x][y] = maptile.Tile("T", x,y)
         self.update(self.mySurface)
 		

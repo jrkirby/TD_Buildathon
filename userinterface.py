@@ -73,7 +73,6 @@ class UserInterface:
         self.prev_mouse_pos = (x, y)
 
     def click_up(self, surface, map):
-        print("clickup")
         if(self.card_selected):
             self.card_selected = False
             self.hand.cards[self.clicked_on].position = self.hand.index_to_pos(self.clicked_on, surface)
