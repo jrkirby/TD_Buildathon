@@ -10,6 +10,10 @@ import gamedata
 import userinterface
 import enemymanager
 import hand
+import menu
+import cardType
+import deck
+import build_deck
 from card import card
 import tower
 
@@ -18,7 +22,7 @@ The dimensions for the screen. These should remain constant.
 """
 SCREEN_WIDTH = 1300
 SCREEN_HEIGHT = 700
-deck = []
+
 basecard = pygame.image.load("images/Card.png")
 
 """
@@ -39,14 +43,11 @@ TITLE = "Defensive Design"
 Default theme music
 """
 def default_music():
-    pygame.mixer.music.load("sounds/Julien_Allioux_-_Funeral_day.ogg")
-    pygame.mixer.music.play(10, 0)
+    # pygame.mixer.music.load("sounds/Julien_Allioux_-_Funeral_day.ogg")
+    # pygame.mixer.music.play(10, 0)
+    temp = 0
 
-"""
-This performs initial setup of the game. Any global variables
-should also be defined here (yes, I know most people say global
-variables are bad, but there really isn't a simple solution).
-"""
+
 def setup():   
     # Begin default music
     default_music()
@@ -55,6 +56,8 @@ def setup():
     # Set up a new window.
     global ScreenSurface
     ScreenSurface = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+
+
     # Set up the map
     global Map
     Map = gamemap.GameMap("map1", ScreenSurface)
@@ -62,43 +65,67 @@ def setup():
     global Data
     Data = gamedata.GameData()
     # Set up the UI
+
     global UI
-    h = hand.Hand(deck)
-    c =  card(1, True)
-    c2 = card(2, True)
-    c3 = card(3, True)
-    c.images.append(basecard)
-    c2.images.append(basecard)
-    c3.images.append(basecard)
-    h.add_card(c)
-    h.add_card(c2)
-    h.add_card(c3)
-    UI = userinterface.UserInterface(h)
+    UI = userinterface.UserInterface()
     # Initialize the enemy manager
     global EnemyManager
     EnemyManager = enemymanager.EnemyManager(Map.getTileSize())
     global GameClock
     GameClock = pygame.time.Clock()
     global GameState
-    GameState = True
+
+    global BuildDeck
+
+    global Menu
+    Menu = menu.Menu()
+
+    GameState = "MENU"
+
+    global Deck
+    global CardType
+    CardType = cardType.cardType()
+
 
 """
 This handles a single pygame event.
 """
 def handleEvent(event):
+    global GameState
+    global Deck
+    global BuildDeck
     if(event.type == pygame.KEYDOWN or event.type == pygame.KEYUP):
         handleKeyEvent(event)
     if event.type == pygame.QUIT:
         # Quit the program safely
         pygame.quit()
         sys.exit()
-    if(event.type == pygame.MOUSEBUTTONDOWN):		
-        x, y = pygame.mouse.get_pos()
-        mouse_c = pygame.image.load("images/Card.png").convert()
-	print(card_x)
-	print("\n")
+    if(event.type == pygame.MOUSEBUTTONDOWN):
+        if(GameState == "MENU"):
+            GameState = "BUILD_DECK"
+            Deck = deck.Deck()
+            BuildDeck = build_deck.BuildDeck(Deck)
+        if(GameState == "BUILD_DECK"):
+            BuildDeck.click(pygame.mouse.get_pos())
+            if(len(Deck.deck) > 5):
+                Deck.shuffle()
+                UI.start(Deck, ScreenSurface)
+                GameState = "GAME"
+        if(GameState == "GAME"):
+            x, y = pygame.mouse.get_pos()
+            UI.click(x,y)
+            # card_x = int(math.floor(SCREEN_WIDTH / CARD_ARRAY_SIZE))
+            # card_y = int(math.floor(SCREEN_HEIGHT / CARD_ARRAY_SIZE))
+            # card_x = x / card_x
+            # mouse_c = pygame.image.load("images/card.png").convert()
+            # print(card_x)
+            # print("\n")
         #screen.blit(mouse_c, (x, y))
         #deck[card_x].cType.image
+    if(event.type == pygame.MOUSEBUTTONUP):
+        if(GameState == "GAME" and UI.click_up(ScreenSurface, Map) != -1):
+            Data.resources -= CardType.Cost[UI.click_up(ScreenSurface, Map)]
+
     else:
         EnemyManager.spawnEnemy(event, Map.getStartingTile())
 
@@ -131,15 +158,16 @@ once per game loop.
 """
 def update():
     global GameState
-    if(GameState):
+    if(GameState == "GAME"):
         # Update the enemies
         livesLost = EnemyManager.update(Map)
         Data.lives -= livesLost
+
         # Update the UI
         UI.update(Data)
         # Check if the game is over
         if(Data.lives <= 0):
-            GameState = False # The game is over
+            GameState = "GAME_LOST" # The game is over
             UI.showDefeat()
        
 
@@ -148,12 +176,20 @@ Draws all game objects to the screen. This is called once
 per game loop.
 """
 def draw():
-    # Draw the map
-    Map.draw(ScreenSurface)
-    # Draw the enemies
-    EnemyManager.draw(ScreenSurface)
-    # Draw the UI
-    UI.draw(ScreenSurface)
+    if(GameState == "MENU"):
+        Menu.draw(ScreenSurface)
+    elif(GameState == "BUILD_DECK"):
+        BuildDeck.draw(ScreenSurface)
+    elif(GameState == "GAME"):
+        # Draw the map
+        Map.draw(ScreenSurface)
+        # Draw the enemies
+        EnemyManager.draw(ScreenSurface)
+        # Draw the UI
+        UI.draw(ScreenSurface)
+
+        # for tower in Map."towers":
+        #     tower.animate(Map.enemies)
     
 
 """
