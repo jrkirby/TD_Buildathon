@@ -9,14 +9,13 @@ import os
 import gamedata
 import userinterface
 import enemymanager
-import hand
+import math
 
 """
 The dimensions for the screen. These should remain constant.
 """
-SCREEN_WIDTH = 1300
-SCREEN_HEIGHT = 700
-deck = []
+SCREEN_WIDTH = 800
+SCREEN_HEIGHT = 800
 
 """
 The max number of frames per second for the game.
@@ -32,21 +31,22 @@ GameClock = None
 The title of the game. This should remain constant.
 """
 TITLE = "Defensive Design"
-"""
-Default theme music
-"""
-def default_music():
-    pygame.mixer.music.load("sounds/Julien_Allioux_-_Funeral_day.ogg")
-    pygame.mixer.music.play(10, 0)
+
+
+#global variables for cards, towers and the projectile
+#shot by the towers
+towers = []
+cards = []
+projectile = pygame.image.load("bullet.png").convert_alpha()
+
 
 """
 This performs initial setup of the game. Any global variables
 should also be defined here (yes, I know most people say global
 variables are bad, but there really isn't a simple solution).
 """
-def setup():   
-    # Begin default music
-    default_music()
+def setup():
+   
     # Set the title of the game.
     pygame.display.set_caption(TITLE)
     # Set up a new window.
@@ -54,14 +54,13 @@ def setup():
     ScreenSurface = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     # Set up the map
     global Map
-    Map = gamemap.GameMap("map1", ScreenSurface)
     # Set up the starting game data
     global Data
     Data = gamedata.GameData()
     # Set up the UI
     global UI
-    aux = hand.Hand(deck)
-    UI = userinterface.UserInterface(aux)
+    UI = userinterface.UserInterface()
+    Map = gamemap.GameMap("map1", ScreenSurface)
     # Initialize the enemy manager
     global EnemyManager
     EnemyManager = enemymanager.EnemyManager(Map.getTileSize())
@@ -69,38 +68,18 @@ def setup():
     GameClock = pygame.time.Clock()
     global GameState
     GameState = True
-
-    global Deck
+    
 
 """
 This handles a single pygame event.
 """
 def handleEvent(event):
-    global GameState
-    global Deck
     if(event.type == pygame.KEYDOWN or event.type == pygame.KEYUP):
         handleKeyEvent(event)
     if event.type == pygame.QUIT:
         # Quit the program safely
         pygame.quit()
         sys.exit()
-    if(event.type == pygame.MOUSEBUTTONDOWN):
-        if(GameState == "MENU"):
-            GameState = "BUILD_DECK"
-            Deck = deck.Deck()
-        if(GameState == "BUILD_DECK"):
-            BuildDeck.click(pygame.mouse.get_pos())
-        if(GameState == "GAME"):
-
-            x, y = pygame.mouse.get_pos()
-            card_x = int(math.floor(SCREEN_WIDTH / CARD_ARRAY_SIZE))
-            card_y = int(math.floor(SCREEN_HEIGHT / CARD_ARRAY_SIZE))
-            card_x = x / card_x
-            mouse_c = pygame.image.load("images/card.png").convert()
-            print(card_x)
-            print("\n")
-        #screen.blit(mouse_c, (x, y))
-        #deck[card_x].cType.image
     else:
         EnemyManager.spawnEnemy(event, Map.getStartingTile())
 
@@ -120,6 +99,7 @@ def main():
         ScreenSurface.fill((0, 0, 0))
         update() # Update the game objects
         draw() # Draw all the game objects
+        checkTowers()
         pygame.display.flip()
 
         # Maintain the max frame rate
@@ -171,7 +151,17 @@ def handleKeyEvent(event):
     else:
         if(event.type == pygame.KEYUP):
             return # TODO: Add stuff for key up events here
-
+        
+def checkTowers():
+    for tower in towers:
+        if((tower.tType.cooldown == 0) and (len(EnemyManager.enemies) > 0)):
+            for enemy in EnemyManager.enemies:                
+                enemy = EnemyManager.enemies[0]
+                vectorX = enemy.sprite.rect.left - tower.xCoord
+                vectorY = enemy.sprite.rect.top - tower.yCoord
+                if(math.sqrt(math.pow(vectorX, 2) + math.pow(vectorY, 2)) <= tower.tType.range):
+                    
+            
 pygame.init()
 setup()
 main()
