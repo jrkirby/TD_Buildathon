@@ -55,6 +55,8 @@ def setup():
     # Set up a new window.
     global ScreenSurface
     ScreenSurface = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+
+
     # Set up the map
     global Map
     Map = gamemap.GameMap("map1", ScreenSurface)
@@ -102,6 +104,10 @@ def handleEvent(event):
             BuildDeck = build_deck.BuildDeck(Deck)
         if(GameState == "BUILD_DECK"):
             BuildDeck.click(pygame.mouse.get_pos())
+            if(len(Deck.deck) > 5):
+                Deck.shuffle()
+                UI.start(Deck, ScreenSurface)
+                GameState = "GAME"
         if(GameState == "GAME"):
 
             x, y = pygame.mouse.get_pos()

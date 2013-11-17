@@ -54,10 +54,15 @@ class card:
         self.font = pygame.font.Font(os.path.join("UI", "larabie.ttf"), FONT_SIZE, )
         surface.blit(self.images[0], (self.position[0], self.position[1]))    #base image
         
-        # image = pygame.image.load(self.imageName[self.tType]).convert()
-        # surface.blit(image, (self.position[0] + 20 , self.position[1] + 15))
+        image = pygame.image.load(cardType.imageName[self.ctype]).convert()
+        image = pygame.transform.scale(image, (40, 37))
+        surface.blit(image, (self.position[0] + 30 , self.position[1] + 32))
 
     def click_on(self, x, y):
-        return True
+        if(not self.onScreen):
+            return False
+        if(x > self.position[0] and y > self.position[1] and x < self.position[0] + 100 and y < self.position[1] + 133):
+            return True
+        return False
     
         

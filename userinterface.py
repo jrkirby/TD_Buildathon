@@ -43,9 +43,9 @@ class UserInterface:
         self.font = pygame.font.Font(os.path.join("UI", "larabie.ttf"), FONT_SIZE, )
         self.gamestate = False # The game is running
 
-    def start(self, deck):
+    def start(self, deck, surface):
         self.gamestate = True
-        self.hand = hand.Hand(deck)
+        self.hand = hand.Hand(deck, surface)
 
     def update(self, gamedata):
         # We save a surface containing the text we want to show.
@@ -64,8 +64,11 @@ class UserInterface:
         height = surface.get_height()
         # Draws the hand below the bottom of the map
         
-        for card in self.hand.cards :
-            surface.blit(self.basecard, card.position.x, card.position.y)
+        # for card in self.hand.cards :
+        #     surface.blit(self.basecard, card.position.x, card.position.y)
+
+        self.hand.draw(surface)
+
         # Draw the score in the upper left corner
         surface.blit(self.score, (FONT_PADDING, FONT_PADDING))
         # Put the number of lives below the score
