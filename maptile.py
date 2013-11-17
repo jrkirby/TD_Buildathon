@@ -34,8 +34,8 @@ class Tile:
             self.type = START
         elif(character == "D"):
              self.type = DESTINATION
-	elif(character == "T"):
-	    self.type = TOWER
+    	elif(character == "T"):
+    	    self.type = TOWER
         else:
             self.type = PLOT # By default we can build towers on it
 
@@ -53,7 +53,7 @@ class Tile:
             elif(self.type == DESTINATION):
                 name = "end.png"
             elif(self.type == TOWER):
-                name = "symbol_1.png"
+                name = "plot.png"
             else: # Buildable tile by default
                 name = "plot.png"
             # The os.path.join() function is used for cross platform compatibility

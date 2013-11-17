@@ -28,8 +28,10 @@ class tower:
 		
 	
 	def pos(self, x, y):
-		self.xCoord = x
-		self.yCoord = y
+		print("setting tower coords")
+		print(x,y)
+		self.xCoord = x * 51
+		self.yCoord = y * 51
 
 	def animate(self, enemies, surface):
 		self.cd -= pygame.time.get_ticks()-self.last_update_time
@@ -38,8 +40,12 @@ class tower:
 			for enemy in enemies:
 				if(self.in_range(enemy)):
 					enemy.health -= self.Damage
-					pygame.draw.line(surface, FONT_COLOR, (self.xCoord, self.yCoord), enemy.getCoordinates(), 10)
+					pygame.draw.line(surface, FONT_COLOR, (self.xCoord + 25, self.yCoord + 25), (enemy.getCoordinates()[0] + 25, enemy.getCoordinates()[1] + 25) , 10)
 					return
+	def draw(self, surface):
+		image = pygame.image.load(cardType.imageName[self.ctype]).convert()
+		image = pygame.transform.scale(image, (51, 51))
+		surface.blit(image, (self.xCoord, self.yCoord))
 
 	def in_range(self, enemy):
 		dist = math.sqrt((self.xCoord - enemy.getCoordinates()[0]) * (self.xCoord - enemy.getCoordinates()[0]) + (self.yCoord - enemy.getCoordinates()[1]) * (self.yCoord - enemy.getCoordinates()[1]))

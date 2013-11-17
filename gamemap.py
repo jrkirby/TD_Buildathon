@@ -26,7 +26,6 @@ class GameMap:
     D = Where the enemies leave the map (their objective).
     """
     def __init__(self, mapname, surface):
-
         self.towers = []
         self.mySurface = surface
         # Read the file in the maps directory with the given name, line by line.
@@ -136,17 +135,17 @@ class GameMap:
     		return False
     	return True
 
-    def placeTowerAt(self, x, y, ctype):
-	x = int(x/51)
+    def placeTowerAt(self, x, y, towerType):
+        x = int(x/51)
         y = int(y/51)
-	if(self.checkIfCanPlace(x, y) == True):
-		t = tower(ctype) #todo change
-		t.pos(x, y)	
-		self.towers.append(t)
-        self.tiles[x][y] = maptile.Tile("T", x,y)
-        self.update(self.mySurface)
-		
-    
+        if(self.checkIfCanPlace(x, y) == True):
+            t = tower(towerType) #todo change
+            t.pos(x, y)	
+            self.towers.append(t)
+            self.tiles[x][y] = maptile.Tile("T", x,y)
+            self.update(self.mySurface)
+            return towerType
+
         
 # A little trick so we can run the game from here in IDLE
 if __name__ == '__main__':

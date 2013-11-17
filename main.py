@@ -11,6 +11,7 @@ import userinterface
 import enemymanager
 import hand
 import menu
+import cardType
 import deck
 import build_deck
 from card import card
@@ -42,10 +43,8 @@ TITLE = "Defensive Design"
 Default theme music
 """
 def default_music():
-    # pygame.mixer.music.load("sounds/Julien_Allioux_-_Funeral_day.ogg")
-    # pygame.mixer.music.play(10, 0)
-    temp = 0
-
+    pygame.mixer.music.load("sounds/Julien_Allioux_-_Funeral_day.ogg")
+    pygame.mixer.music.play(10, 0)
 
 def setup():   
     # Begin default music
@@ -82,6 +81,8 @@ def setup():
     GameState = "MENU"
 
     global Deck
+    global CardType
+    CardType = cardType.cardType()
 
 
 """
@@ -122,7 +123,8 @@ def handleEvent(event):
     if(event.type == pygame.MOUSEBUTTONUP):
         if(GameState == "GAME"):
             UI.click_up(ScreenSurface, Map)
-
+        if(GameState == "GAME" and UI.click_up(ScreenSurface, Map) != -1):
+            Data.resources -= CardType.Cost[UI.click_up(ScreenSurface, Map)]
     else:
         EnemyManager.spawnEnemy(event, Map.getStartingTile())
 
@@ -187,6 +189,7 @@ def draw():
 
         for tower in Map.towers:
             tower.animate(EnemyManager.enemies, ScreenSurface)
+            tower.draw(ScreenSurface)
     
 
 """
