@@ -39,6 +39,7 @@ class UserInterface:
 
     def __init__(self):
         # Define a font object to use
+        pygame.font.init()
         self.font = pygame.font.Font(os.path.join("UI", "larabie.ttf"), FONT_SIZE, )
         self.gamestate = False # The game is running
 
@@ -52,16 +53,17 @@ class UserInterface:
                                       True, FONT_COLOR, FONT_BACKGROUND)
         self.lives = self.font.render("Lives: " + str(gamedata.lives),
                                       True, FONT_COLOR, FONT_BACKGROUND)
-        self.resources = self.font.render("Mana: " + str(gamedata.resources),
+        self.resources = self.font.render("Resources: " + str(gamedata.resources),
                                           True, FONT_COLOR, FONT_BACKGROUND)
         self.defeat = self.font.render("You have been defeated!", True,
                                        FONT_COLOR, FONT_BACKGROUND)
-	self.basecard = pygame.image.load("images/Card.png")
+	
 
     def draw(self, surface):
         width = surface.get_width()
         height = surface.get_height()
         # Draws the hand below the bottom of the map
+        
         for card in self.hand.cards :
             surface.blit(self.basecard, card.position.x, card.position.y)
         # Draw the score in the upper left corner
@@ -85,3 +87,4 @@ class UserInterface:
 # A little trick so we can run the game from here in IDLE
 if __name__ == '__main__':
     execfile("main.py")
+        

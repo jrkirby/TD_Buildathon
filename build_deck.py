@@ -14,9 +14,9 @@ class BuildDeck(object):
 		
 	#happens every time you select a card
 	def getNewCards(self):
-		# self.cards[0] = new_random_card()	#todo
-		# self.cards[1] = new_random_card()	#todo
-		# self.cards[2] = new_random_card()	#todo
+		self.cards[0] = cardtype.random_card()	#todo
+		self.cards[1] = cardtype.random_card()	#todo
+		self.cards[2] = cardtype.random_card()	#todo
 		x = 0
 
 	def click(self, pos):

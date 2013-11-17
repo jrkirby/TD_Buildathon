@@ -11,15 +11,18 @@ import userinterface
 import enemymanager
 import hand
 import menu
-import card
 import deck
 import build_deck
+from card import card
+import tower
 
 """
 The dimensions for the screen. These should remain constant.
 """
 SCREEN_WIDTH = 1300
 SCREEN_HEIGHT = 700
+
+basecard = pygame.image.load("images/Card.png")
 
 """
 The max number of frames per second for the game.
@@ -92,6 +95,7 @@ def handleEvent(event):
         # Quit the program safely
         pygame.quit()
         sys.exit()
+<<<<<<< HEAD
     if(event.type == pygame.MOUSEBUTTONDOWN):
         if(GameState == "MENU"):
             GameState = "BUILD_DECK"
@@ -101,17 +105,18 @@ def handleEvent(event):
             BuildDeck.click(pygame.mouse.get_pos())
         if(GameState == "GAME"):
 
-            x, y = pygame.mouse.get_pos()
-            card_x = int(math.floor(SCREEN_WIDTH / CARD_ARRAY_SIZE))
-            card_y = int(math.floor(SCREEN_HEIGHT / CARD_ARRAY_SIZE))
-            card_x = x / card_x
-            mouse_c = pygame.image.load("images/card.png").convert()
-            print(card_x)
-            print("\n")
+            # x, y = pygame.mouse.get_pos()
+            # card_x = int(math.floor(SCREEN_WIDTH / CARD_ARRAY_SIZE))
+            # card_y = int(math.floor(SCREEN_HEIGHT / CARD_ARRAY_SIZE))
+            # card_x = x / card_x
+            # mouse_c = pygame.image.load("images/card.png").convert()
+            # print(card_x)
+            # print("\n")
         #screen.blit(mouse_c, (x, y))
         #deck[card_x].cType.image
     else:
         EnemyManager.spawnEnemy(event, Map.getStartingTile())
+
 
 """
 This is the main game loop, called as many times as
