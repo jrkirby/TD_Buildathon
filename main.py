@@ -109,8 +109,8 @@ def handleEvent(event):
                 UI.start(Deck, ScreenSurface)
                 GameState = "GAME"
         if(GameState == "GAME"):
-
             x, y = pygame.mouse.get_pos()
+            UI.click(x,y)
             # card_x = int(math.floor(SCREEN_WIDTH / CARD_ARRAY_SIZE))
             # card_y = int(math.floor(SCREEN_HEIGHT / CARD_ARRAY_SIZE))
             # card_x = x / card_x
@@ -119,6 +119,10 @@ def handleEvent(event):
             # print("\n")
         #screen.blit(mouse_c, (x, y))
         #deck[card_x].cType.image
+    if(event.type == pygame.MOUSEBUTTONUP):
+        if(GameState == "GAME"):
+            UI.click_up(ScreenSurface)
+
     else:
         EnemyManager.spawnEnemy(event, Map.getStartingTile())
 

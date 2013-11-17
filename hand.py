@@ -36,3 +36,10 @@ class Hand(object):
 		y = surface.get_height() - 133
 		x = index * 100
 		return (x,y)
+
+	def check(self, x, y):
+		for i in range(len(self.cards)):
+			card = self.cards[i]
+			if(card.click_on(x, y)):
+				return i
+		return -1

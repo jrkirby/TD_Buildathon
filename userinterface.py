@@ -46,6 +46,7 @@ class UserInterface:
     def start(self, deck, surface):
         self.gamestate = True
         self.hand = hand.Hand(deck, surface)
+        self.card_selected = False
 
     def update(self, gamedata):
         # We save a surface containing the text we want to show.
@@ -57,6 +58,24 @@ class UserInterface:
                                           True, FONT_COLOR, FONT_BACKGROUND)
         self.defeat = self.font.render("You have been defeated!", True,
                                        FONT_COLOR, FONT_BACKGROUND)
+
+        if(self.card_selected):
+            self.current_mouse_pos = pygame.mouse.get_pos()
+            new_position = (self.hand.cards[self.clicked_on].position[0] + self.current_mouse_pos[0] - self.prev_mouse_pos[0], self.hand.cards[self.clicked_on].position[1] + self.current_mouse_pos[1] - self.prev_mouse_pos[1])
+            self.hand.cards[self.clicked_on].position = new_position
+            self.prev_mouse_pos = self.current_mouse_pos
+    
+    def click(self, x, y):
+        self.clicked_on = self.hand.check(x, y)
+        if(self.clicked_on == -1):
+            return
+        self.card_selected = True
+        self.prev_mouse_pos = (x, y)
+
+    def click_up(self, surface):
+        if(self.card_selected):
+            self.card_selected = False
+            self.hand.cards[self.clicked_on].position = self.hand.index_to_pos(self.clicked_on, surface)
 	
 
     def draw(self, surface):
