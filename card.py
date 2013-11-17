@@ -41,8 +41,7 @@ class card:
     cType = None
     images = []
     onScreen = True
-    position_x = -1
-    position_y = -1
+    position = (-1, -1)
     
     
     def __init__(self, typeOfCard, booleanWhetherIsTower):
@@ -52,10 +51,9 @@ class card:
         self.cType = cardType(typeOfCard, booleanWhetherIsTower)         
     
     def draw(self, surface):
-	pygame.font.init()
-	self.font = pygame.font.Font(os.path.join("UI", "larabie.ttf"), FONT_SIZE, )
+        self.font = pygame.font.Font(os.path.join("UI", "larabie.ttf"), FONT_SIZE, )
         surface.blit(self.images[0], (self.position_x, self.position_y))
-        self.cType.draw(surface, self.position_x, self.position_y)
+        self.cType.draw(surface, position[0], position[1])
             
     
         
