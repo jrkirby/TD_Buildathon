@@ -95,7 +95,6 @@ def handleEvent(event):
         # Quit the program safely
         pygame.quit()
         sys.exit()
-<<<<<<< HEAD
     if(event.type == pygame.MOUSEBUTTONDOWN):
         if(GameState == "MENU"):
             GameState = "BUILD_DECK"
@@ -105,7 +104,7 @@ def handleEvent(event):
             BuildDeck.click(pygame.mouse.get_pos())
         if(GameState == "GAME"):
 
-            # x, y = pygame.mouse.get_pos()
+            x, y = pygame.mouse.get_pos()
             # card_x = int(math.floor(SCREEN_WIDTH / CARD_ARRAY_SIZE))
             # card_y = int(math.floor(SCREEN_HEIGHT / CARD_ARRAY_SIZE))
             # card_x = x / card_x

@@ -8,15 +8,15 @@ class Deck(object):
 		self.deck = []
 
 # Adds a card into the deck
-	def add_card(card):
+	def add_card(self, card):
 		self.deck.append(card)
 
 # Draws card from deck and returns it
-	def draw_card():
+	def draw_card(self):
 		return self.deck.pop()
 
 # Shuffles the positions of all the cards in the deck
-	def shuffle():
+	def shuffle(self):
 		shuffle(self.deck)
 
 		

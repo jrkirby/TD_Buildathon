@@ -38,22 +38,26 @@ class card:
     classdocs
     '''
 
-    cType = None
-    images = []
-    onScreen = True
-    position = (-1, -1)
     
     
-    def __init__(self, typeOfCard, booleanWhetherIsTower):
+    def __init__(self, ctype):
         '''
         Constructor
         '''
-        self.cType = cardType(typeOfCard, booleanWhetherIsTower)         
+        self.ctype = ctype
+        self.images = []
+        self.images.append(pygame.image.load("images/Card.png"))
+        self.position = (-1, -1)
+        self.onScreen = False
     
     def draw(self, surface):
         self.font = pygame.font.Font(os.path.join("UI", "larabie.ttf"), FONT_SIZE, )
-        surface.blit(self.images[0], (self.position_x, self.position_y))
-        self.cType.draw(surface, position[0], position[1])
-            
+        surface.blit(self.images[0], (self.position[0], self.position[1]))    #base image
+        
+        # image = pygame.image.load(self.imageName[self.tType]).convert()
+        # surface.blit(image, (self.position[0] + 20 , self.position[1] + 15))
+
+    def click_on(self, x, y):
+        return True
     
         
