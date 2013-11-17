@@ -72,10 +72,15 @@ class UserInterface:
         self.card_selected = True
         self.prev_mouse_pos = (x, y)
 
-    def click_up(self, surface):
+    def click_up(self, surface, map):
+        print("clickup")
         if(self.card_selected):
             self.card_selected = False
             self.hand.cards[self.clicked_on].position = self.hand.index_to_pos(self.clicked_on, surface)
+            if(map.checkIfCanPlace(self.prev_mouse_pos[0], self.prev_mouse_pos[1])):
+                map.placeTowerAt(self.prev_mouse_pos[0], self.prev_mouse_pos[1], self.hand.cards[self.clicked_on].ctype)
+                pygame.display.update()
+
 	
 
     def draw(self, surface):

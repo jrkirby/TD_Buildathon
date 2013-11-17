@@ -121,7 +121,7 @@ def handleEvent(event):
         #deck[card_x].cType.image
     if(event.type == pygame.MOUSEBUTTONUP):
         if(GameState == "GAME"):
-            UI.click_up(ScreenSurface)
+            UI.click_up(ScreenSurface, Map)
 
     else:
         EnemyManager.spawnEnemy(event, Map.getStartingTile())
@@ -159,6 +159,7 @@ def update():
         # Update the enemies
         livesLost = EnemyManager.update(Map)
         Data.lives -= livesLost
+
         # Update the UI
         UI.update(Data)
         # Check if the game is over
@@ -183,6 +184,9 @@ def draw():
         EnemyManager.draw(ScreenSurface)
         # Draw the UI
         UI.draw(ScreenSurface)
+
+        # for tower in Map."towers":
+        #     tower.animate(Map.enemies)
     
 
 """
