@@ -33,17 +33,18 @@ The number of pixels between two lines of text on the screen.
 FONT_LINESPACE = 4
 
 import pygame
+import hand
 
 class UserInterface:
 
-    def __init__(self, hand):
+    def __init__(self):
         # Define a font object to use
         self.font = pygame.font.Font(os.path.join("UI", "larabie.ttf"), FONT_SIZE, )
         self.gamestate = False # The game is running
 
     def start(self, deck):
         self.gamestate = True
-	    self.hand = hand.Hand(deck)
+        self.hand = hand.Hand(deck)
 
     def update(self, gamedata):
         # We save a surface containing the text we want to show.

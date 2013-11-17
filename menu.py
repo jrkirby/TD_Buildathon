@@ -28,6 +28,7 @@ class Menu(object):
 		self.font = pygame.font.Font(os.path.join("UI", "larabie.ttf"), FONT_SIZE, )
 
 	def draw(self, surface):
+		print("Draw Menu")
 		self.start_text = self.font.render("Start", True, FONT_COLOR, FONT_BACKGROUND)
 		surface.blit(self.start_text, ((surface.get_width()-self.start_text.get_width())/2,
                                        (surface.get_height()-self.start_text.get_height())/2))
