@@ -38,12 +38,10 @@ class UserInterface:
 
     def __init__(self, hand):
         # Define a font object to use
+        pygame.font.init()
         self.font = pygame.font.Font(os.path.join("UI", "larabie.ttf"), FONT_SIZE, )
-        self.gamestate = False # The game is running
-
-    def start(self, deck):
-        self.gamestate = True
-	    self.hand = hand.Hand(deck)
+        self.gamestate = True # The game is running
+	self.hand = hand
 
     def update(self, gamedata):
         # We save a surface containing the text we want to show.
@@ -51,18 +49,23 @@ class UserInterface:
                                       True, FONT_COLOR, FONT_BACKGROUND)
         self.lives = self.font.render("Lives: " + str(gamedata.lives),
                                       True, FONT_COLOR, FONT_BACKGROUND)
-        self.resources = self.font.render("Mana: " + str(gamedata.resources),
+        self.resources = self.font.render("Resources: " + str(gamedata.resources),
                                           True, FONT_COLOR, FONT_BACKGROUND)
         self.defeat = self.font.render("You have been defeated!", True,
                                        FONT_COLOR, FONT_BACKGROUND)
-	self.basecard = pygame.image.load("images/Card.png")
+	
 
     def draw(self, surface):
         width = surface.get_width()
         height = surface.get_height()
         # Draws the hand below the bottom of the map
-        for card in self.hand.cards :
-            surface.blit(self.basecard, card.position.x, card.position.y)
+	x = 0
+        for card in self.hand.cards :            
+            y = height - 133
+            card.position_x = x
+            card.position_y = y
+            card.draw(surface)
+            x += 100
         # Draw the score in the upper left corner
         surface.blit(self.score, (FONT_PADDING, FONT_PADDING))
         # Put the number of lives below the score
@@ -84,3 +87,4 @@ class UserInterface:
 # A little trick so we can run the game from here in IDLE
 if __name__ == '__main__':
     execfile("main.py")
+        
