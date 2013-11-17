@@ -17,7 +17,7 @@ class tower:
 	def __init__(self, ctype):
 		self.ctype = ctype
 		self.Damage = cardType.Damage[self.ctype]
-		self.Range = cardType.Range[self.ctype] * 51
+		self.Range = cardType.Range[self.ctype] * 25
 		self.Cooldown = cardType.Cooldown[self.ctype] * 50000
 
 		self.cd = self.Cooldown

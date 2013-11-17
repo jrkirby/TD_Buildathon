@@ -77,11 +77,13 @@ class EnemyManager:
     """
     def update(self, mapdata):
         retval = 0
+        pointsGained = 0
         # Update the enemies
         for curr in self.enemies:
             curr.update(pygame.time.get_ticks()-self.last_update_time, mapdata)
             if(curr.dead() or curr.offscreen(mapdata)):
                 self.enemies.remove(curr)
+                pointsGained += 10
                 curr.sprite.kill() # Remove the sprite from the sprite group
             if(curr.atDestination(mapdata)):
                 self.enemies.remove(curr)
@@ -112,7 +114,7 @@ class EnemyManager:
                 EnemyManager.enemy_queue.put((scheduled_time, new_enemy))
             # Increase the difficulty!
             #EnemyManager.basic_enemies = 0
-        return retval
+        return (retval, pointsGained)
 
     """
     Draw all enemies in the game to the screen.

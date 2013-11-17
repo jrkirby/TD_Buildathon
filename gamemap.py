@@ -121,7 +121,7 @@ class GameMap:
 
     def checkIfCanPlace(self, x, y):
     	for tower in self.towers:
-    		if((tower.xCoord == x) and (tower.yCoord == y)):
+    		if((tower.xCoord/51 == x) and (tower.yCoord/51 == y)):
     			return False
     	if((x==4) and((y == 0) or (y == 1) or (y == 2))):
     		return False

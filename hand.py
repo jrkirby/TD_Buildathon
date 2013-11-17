@@ -21,11 +21,11 @@ class Hand(object):
 	def select_card(self, index):
 		return self.cards[index]
 
-	def remove_card(self, index):
-		self.cards.remove(index)
+	def remove_card(self, index, surface):
+		self.cards.remove(self.cards[index])
 		for i in range(len(self.cards)):
 			card = self.cards[i]
-			card.position = self.index_to_pos(i)
+			card.position = self.index_to_pos(i, surface)
 
 	def draw(self, surface):
 		for i in range(len(self.cards)):

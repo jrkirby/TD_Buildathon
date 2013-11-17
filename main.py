@@ -105,7 +105,7 @@ def handleEvent(event):
             BuildDeck = build_deck.BuildDeck(Deck)
         if(GameState == "BUILD_DECK"):
             BuildDeck.click(pygame.mouse.get_pos())
-            if(len(Deck.deck) > 5):
+            if(len(Deck.deck) > 30):
                 Deck.shuffle()
                 UI.start(Deck, ScreenSurface)
                 GameState = "GAME"
@@ -122,9 +122,9 @@ def handleEvent(event):
         #deck[card_x].cType.image
     if(event.type == pygame.MOUSEBUTTONUP):
         if(GameState == "GAME"):
-            UI.click_up(ScreenSurface, Map)
-        if(GameState == "GAME" and UI.click_up(ScreenSurface, Map) != -1):
-            Data.resources -= CardType.Cost[UI.click_up(ScreenSurface, Map)]
+            tower_made = UI.click_up(ScreenSurface, Map)
+            if(not tower_made == None):
+                Data.resources -= CardType.Cost[tower_made]
     else:
         EnemyManager.spawnEnemy(event, Map.getStartingTile())
 
@@ -159,15 +159,16 @@ def update():
     global GameState
     if(GameState == "GAME"):
         # Update the enemies
-        livesLost = EnemyManager.update(Map)
+        livesLost, gainedPoints = EnemyManager.update(Map)
         Data.lives -= livesLost
-
+        Data.score += gainedPoints
         # Update the UI
         UI.update(Data)
         # Check if the game is over
         if(Data.lives <= 0):
             GameState = "GAME_LOST" # The game is over
             UI.showDefeat()
+
        
 
 """

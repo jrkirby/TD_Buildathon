@@ -79,6 +79,10 @@ class UserInterface:
             if(map.checkIfCanPlace(self.prev_mouse_pos[0], self.prev_mouse_pos[1])):
                 t = map.placeTowerAt(self.prev_mouse_pos[0], self.prev_mouse_pos[1], self.hand.cards[self.clicked_on].ctype)
                 pygame.display.update()
+                print(self.clicked_on)
+                self.hand.remove_card(self.clicked_on, surface)
+                if(not len(self.hand.deck.deck) < 1):
+                    self.hand.add_card(self.hand.deck.draw_card(), surface)
 		return t
 	return -1
 
