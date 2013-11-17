@@ -56,4 +56,4 @@ class cardType:
     def draw(self, surface, x, y):
         if(self.tType != None):
             self.image = pygame.image.load(self.imageName[self.tType]).convert()
-            surface.blit(self.image, (x + 20 , y + 15)) 
+            surface.blit(self.image, (x + 20 , y + 15))      
