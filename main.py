@@ -10,6 +10,8 @@ import gamedata
 import userinterface
 import enemymanager
 import hand
+from card import card
+import tower
 
 """
 The dimensions for the screen. These should remain constant.
@@ -17,6 +19,7 @@ The dimensions for the screen. These should remain constant.
 SCREEN_WIDTH = 1300
 SCREEN_HEIGHT = 700
 deck = []
+basecard = pygame.image.load("images/Card.png")
 
 """
 The max number of frames per second for the game.
@@ -60,8 +63,17 @@ def setup():
     Data = gamedata.GameData()
     # Set up the UI
     global UI
-    aux = hand.Hand(deck)
-    UI = userinterface.UserInterface(aux)
+    h = hand.Hand(deck)
+    c =  card(1, True)
+    c2 = card(2, True)
+    c3 = card(3, True)
+    c.images.append(basecard)
+    c2.images.append(basecard)
+    c3.images.append(basecard)
+    h.add_card(c)
+    h.add_card(c2)
+    h.add_card(c3)
+    UI = userinterface.UserInterface(h)
     # Initialize the enemy manager
     global EnemyManager
     EnemyManager = enemymanager.EnemyManager(Map.getTileSize())
@@ -70,39 +82,26 @@ def setup():
     global GameState
     GameState = True
 
-    global Deck
-
 """
 This handles a single pygame event.
 """
 def handleEvent(event):
-    global GameState
-    global Deck
     if(event.type == pygame.KEYDOWN or event.type == pygame.KEYUP):
         handleKeyEvent(event)
     if event.type == pygame.QUIT:
         # Quit the program safely
         pygame.quit()
         sys.exit()
-    if(event.type == pygame.MOUSEBUTTONDOWN):
-        if(GameState == "MENU"):
-            GameState = "BUILD_DECK"
-            Deck = deck.Deck()
-        if(GameState == "BUILD_DECK"):
-            BuildDeck.click(pygame.mouse.get_pos())
-        if(GameState == "GAME"):
-
-            x, y = pygame.mouse.get_pos()
-            card_x = int(math.floor(SCREEN_WIDTH / CARD_ARRAY_SIZE))
-            card_y = int(math.floor(SCREEN_HEIGHT / CARD_ARRAY_SIZE))
-            card_x = x / card_x
-            mouse_c = pygame.image.load("images/card.png").convert()
-            print(card_x)
-            print("\n")
+    if(event.type == pygame.MOUSEBUTTONDOWN):		
+        x, y = pygame.mouse.get_pos()
+        mouse_c = pygame.image.load("images/Card.png").convert()
+	print(card_x)
+	print("\n")
         #screen.blit(mouse_c, (x, y))
         #deck[card_x].cType.image
     else:
         EnemyManager.spawnEnemy(event, Map.getStartingTile())
+
 
 """
 This is the main game loop, called as many times as
